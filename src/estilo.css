@@ -1,0 +1,97 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.producto {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding: 10px;
+    width: calc(25% - 40px);
+    box-sizing: border-box;
+
+}
+
+.producto h2 {
+    color: #333;
+    font-size: 20px;
+}
+
+.producto p {
+    color: #666;
+    font-size: 16px;
+
+}
+
+.producto img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.2s;
+}
+.producto img:active{
+    transform: scale(0.9);
+}
+
+.producto button {
+    background-color: #4CAF50; /* Verde */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+h2 {
+    color: #333333;
+    text-align: center;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 300;
+    letter-spacing: 2px;
+    cursor: pointer;
+    user-select: none;
+}
+
+h2:hover {
+    animation: bounce 1s ease-in-out infinite;
+}
+
+.detalle {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9; /* Un fondo claro para destacar la sección de detalles */
+    border-radius: 5px; /* Bordes redondeados para un aspecto suave */
+}
+
+.detalle h3 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.detalle p {
+    color: #666; /* Un color de texto más suave para facilitar la lectura */
+    line-height: 1.6; /* Espaciado de línea para mejorar la legibilidad */
+}
+
+.precio {
+    font-size: 20px;
+    color: #FF0000;
+    font-weight: bold;
+}
