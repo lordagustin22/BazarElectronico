@@ -8,10 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
+import { PaginaCrudComponent } from '../components/pagina-crud/pagina-crud.component';
 import { PaginatorPipe } from '../pipes/paginator.pipe';
 import { HomeRoutingModule } from './home-routing.module';
 import { TiendaComponent } from './pages/tienda/tienda.component';
-import { PaginaCrudComponent } from '../components/pagina-crud/pagina-crud.component';
 
 @NgModule({
   declarations: [TiendaComponent, PaginatorPipe, PaginaCrudComponent],
