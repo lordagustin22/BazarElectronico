@@ -118,8 +118,17 @@ export class TiendaComponent implements OnInit {
   busquedaService: BusquedaService = inject(BusquedaService);
   filteredProductList: Product[] = [];
 
+  ngOnInit(): void {
+    this.getProducts();
+  }
+
+  getProducts() {
+    this.busquedaService.getProducts().subscribe((data) => {
+      this.productList = data;
+    });
+  }
+
   constructor() {
-    // this.productList = this.busquedaService.getAllProduct();
     this.filteredProductList = this.productList;
   }
 
@@ -136,15 +145,5 @@ export class TiendaComponent implements OnInit {
   handlePageEvent(pageEvent: PageEvent) {
     this.pageSize = pageEvent.pageSize;
     this.pageNumber = pageEvent.pageIndex + 1;
-  }
-
-  ngOnInit(): void {
-    this.getProducts();
-  }
-
-  getProducts() {
-    this.busquedaService.getProducts().subscribe((data) => {
-      this.productList = data;
-    });
   }
 }
