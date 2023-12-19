@@ -1,14 +1,32 @@
-# ECommerce
+# Bazar Electronico
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.1.
+Proyecto generado con Angular 16.2.12
 
-## File Structure
+## Arquitectura
 
-IMG
+No hay ningún tipo de arquitectura implementada como tal, porque esto es un proyecto inicial. En lo posible se intenta mantener modular a la aplicación distribuyendo los servicios, pipes, componentes, el layout y los componentes compartidos en distintos directorios. Se intenta usar lazy loading para el routing (en lo posible)
 
-## Development server
+En shared se encuentran el navbar y footer y cualquier componente que tenga que ser "compartido" entre varias páginas.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Components contiene el layout, que viene a cumplir la función de app.component.html.
+
+Home contiene las páginas de admin para el CRUD y las páginas de listado de productos para el usuario.
+
+Services contiene servicios necesarios para la lógica. Interface es la interface del producto que se verá reflejada en la base de datos, y pipes contiene un pipe para el paginador.
+
+Environments contiene el endpoint para la API.
+
+## Casos de uso
+
+Exploración de Productos:
+
+Descripción: Los usuarios pueden buscar, filtrar y explorar productos disponibles en el bazar.
+Flujo: Utilizar categorías, palabras clave o filtros para encontrar productos deseados y ver detalles del producto.
+
+Compra de Productos:
+
+Descripción: Los usuarios pueden realizar compras de productos seleccionados.
+Flujo: Contactarse con el vendedor via WhatsApp, seleccionar método de pago y confirmar la compra.
 
 ## Code scaffolding
 
@@ -17,15 +35,3 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
