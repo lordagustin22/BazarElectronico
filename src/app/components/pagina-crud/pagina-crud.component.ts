@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-import { Action } from 'rxjs/internal/scheduler/Action';
 import { Product } from 'src/app/interfaces/product';
 import { BusquedaService } from 'src/app/services/busqueda.service';
+import { ImageUploadService } from 'src/app/services/image-upload.service';
 
 @Component({
   selector: 'app-pagina-crud',
@@ -16,18 +15,21 @@ export class PaginaCrudComponent implements OnInit {
   form: FormGroup;
   operacion: string = 'Agregar ';
   id: number;
+  selectedFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
     private busquedaService: BusquedaService,
     private router: Router,
     private toastr: ToastrService,
-    private aRouter: ActivatedRoute
+    private aRouter: ActivatedRoute,
+    private imageUploadService: ImageUploadService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       price: [null, Validators.required],
+      image: [null, Validators.required],
     });
     this.id = Number(aRouter.snapshot.paramMap.get('id'));
     aRouter.snapshot.paramMap.get('id');
@@ -49,6 +51,7 @@ export class PaginaCrudComponent implements OnInit {
         name: data.name,
         description: data.description,
         price: data.price,
+        image: data.image || null,
       });
     });
   }
@@ -58,6 +61,7 @@ export class PaginaCrudComponent implements OnInit {
       name: this.form.value.name,
       description: this.form.value.description,
       price: this.form.value.price,
+      image: this.form.value.image,
     };
 
     if (this.id !== 0) {
@@ -78,6 +82,36 @@ export class PaginaCrudComponent implements OnInit {
         );
         this.router.navigate(['/']);
       });
+    }
+  }
+
+  onFileSelected(event: any): void {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement?.files?.length) {
+      this.selectedFile = inputElement.files[0];
+      this.form.patchValue({ image: this.selectedFile });
+      this.uploadImage();
+    }
+  }
+
+  private uploadImage(): void {
+    const imageControl = this.form.get('image');
+
+    if (imageControl && imageControl.value instanceof File) {
+      const imageFile = imageControl.value;
+      this.imageUploadService.uploadImage(this.id, imageFile).subscribe(
+        (response) => {
+          console.log('Imagen subida con exito', response);
+          // Handle success, e.g., update UI or navigate to another page
+        },
+        (error) => {
+          console.error('Error subiendo imagen', error);
+          // Handle error, e.g., show an error message to the user
+        }
+      );
+    } else {
+      console.error('Formato de imagen invalido');
+      // You might want to handle this case, e.g., show an error message to the user
     }
   }
 }

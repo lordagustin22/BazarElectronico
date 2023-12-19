@@ -47,9 +47,25 @@
           El campo precio es <strong>requerido</strong>
         </span>
 
+        <input
+          (change)="onFileSelected($event)"
+          formControlName="image"
+          type="file"
+          class="form-control mt-2"
+          accept="image/*"
+        />
+        <span
+          *ngIf="
+            form.get('image')?.hasError('required') &&
+            form.get('image')?.touched
+          "
+        >
+          El campo imagen es <strong>requerido</strong>
+        </span>
+
         <div class="flex flex-col mt-2 text-center justify-content-center">
           <div>
-            <button routerLink="/" type="button" class="btn btn-secondary">
+            <button routerLink="/edit" type="button" class="btn btn-secondary">
               Volver
             </button>
           </div>
