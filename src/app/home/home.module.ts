@@ -8,8 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
-import { PaginaCrudComponent } from '../components/pagina-crud/pagina-crud.component';
 import { PaginatorPipe } from '../pipes/paginator.pipe';
+import { PaginaCrudComponent } from './admin/pagina-crud/pagina-crud.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { TiendaComponent } from './pages/tienda/tienda.component';
 
