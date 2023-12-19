@@ -1,20 +1,8 @@
 <div class="surface-50">
   <div class="mx-auto fit">
-    <mat-form-field class="example-form-field">
-      <input matInput type="text" name="search" [(ngModel)]="value" #filter />
-      <button
-        matPrefix
-        mat-icon-button
-        aria-label="Search"
-        type="button"
-        (click)="filterResults(filter.value)"
-      >
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
     <br />
     <a routerLink="edit">Ir a editar/eliminar producto (temporal)</a>
-    <h2>Productos</h2>
+    <h2 class="mt-4">Productos</h2>
     <div class="wrapper">
       <div
         class="producto"

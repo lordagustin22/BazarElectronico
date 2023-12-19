@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from 'src/app/interfaces/product';
-import { BusquedaService } from 'src/app/services/busqueda.service';
 import { ImageUploadService } from 'src/app/services/image-upload.service';
+import { ProductoService } from 'src/app/services/producto.service';
 
 @Component({
   selector: 'app-pagina-crud',
@@ -19,7 +19,7 @@ export class PaginaCrudComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private busquedaService: BusquedaService,
+    private productoService: ProductoService,
     private router: Router,
     private toastr: ToastrService,
     private aRouter: ActivatedRoute,
@@ -46,7 +46,7 @@ export class PaginaCrudComponent implements OnInit {
   }
 
   getProductById(id: number) {
-    this.busquedaService.getProductById(id).subscribe((data: Product) => {
+    this.productoService.getProductById(id).subscribe((data: Product) => {
       this.form.setValue({
         name: data.name,
         description: data.description,
@@ -67,7 +67,7 @@ export class PaginaCrudComponent implements OnInit {
     if (this.id !== 0) {
       // Editar
       product.id = this.id;
-      this.busquedaService.updateProduct(this.id, product).subscribe(() => {
+      this.productoService.updateProduct(this.id, product).subscribe(() => {
         this.toastr.info(
           `El producto ${product.name} fue actualizado con exito`
         );
@@ -75,7 +75,7 @@ export class PaginaCrudComponent implements OnInit {
       });
     } else {
       // Agregar
-      this.busquedaService.saveProduct(product).subscribe(() => {
+      this.productoService.saveProduct(product).subscribe(() => {
         this.toastr.success(
           `El producto ${product.name} fue registrado con exito`,
           'Producto registrado'

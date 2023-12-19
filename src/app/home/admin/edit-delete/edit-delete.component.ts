@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from 'src/app/interfaces/product';
-import { BusquedaService } from 'src/app/services/busqueda.service';
+import { ProductoService } from 'src/app/services/producto.service';
 
 @Component({
   selector: 'app-edit-delete',
@@ -10,7 +10,7 @@ import { BusquedaService } from 'src/app/services/busqueda.service';
 })
 export class EditDeleteComponent implements OnInit {
   productList: Product[] = [];
-  busquedaService: BusquedaService = inject(BusquedaService);
+  productoService: ProductoService = inject(ProductoService);
 
   constructor(private toastr: ToastrService) {}
 
@@ -19,13 +19,13 @@ export class EditDeleteComponent implements OnInit {
   }
 
   getProducts() {
-    this.busquedaService.getProducts().subscribe((data) => {
+    this.productoService.getProducts().subscribe((data) => {
       this.productList = data;
     });
   }
 
   deleteProduct(id: number) {
-    this.busquedaService.deleteProduct(id).subscribe(() => {
+    this.productoService.deleteProduct(id).subscribe(() => {
       this.getProducts();
       this.toastr.warning(
         'El producto fue eliminado con exito',
