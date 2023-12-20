@@ -1,0 +1,19 @@
+<mat-form-field appearance="fill" class="example-form-field">
+  <mat-label>Buscar</mat-label>
+  <input
+    matInput
+    type="text"
+    name="search"
+    #filter
+    (keyup.enter)="filterResults(filter.value)"
+  />
+  <button
+    matPrefix
+    mat-icon-button
+    aria-label="Search"
+    type="button"
+    (click)="filterResults(filter.value)"
+  >
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-form-field>
