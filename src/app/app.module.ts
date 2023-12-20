@@ -8,11 +8,9 @@ import { HomeModule } from './home/home.module';
 
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { EditDeleteComponent } from './home/admin/edit-delete/edit-delete.component';
-import { DetallesComponent } from './home/pages/detalles/detalles.component';
 
 @NgModule({
-  declarations: [AppComponent, EditDeleteComponent, DetallesComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

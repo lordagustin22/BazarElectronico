@@ -2,29 +2,33 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { PaginatorPipe } from '../pipes/paginator.pipe';
+import { NavbarComponent } from '../shared/components/navbar/navbar.component';
+import { SearchbarComponent } from '../shared/components/searchbar/searchbar.component';
+import { EditDeleteComponent } from './admin/edit-delete/edit-delete.component';
 import { PaginaCrudComponent } from './admin/pagina-crud/pagina-crud.component';
 import { HomeRoutingModule } from './home-routing.module';
+import { DetallesComponent } from './pages/detalles/detalles.component';
 import { TiendaComponent } from './pages/tienda/tienda.component';
 
 @NgModule({
-  declarations: [TiendaComponent, PaginatorPipe, PaginaCrudComponent],
+  declarations: [
+    PaginatorPipe,
+    TiendaComponent,
+    PaginaCrudComponent,
+    EditDeleteComponent,
+    DetallesComponent,
+  ],
   imports: [
     CommonModule,
     HomeRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
     MatPaginatorModule,
+    NavbarComponent,
+    SearchbarComponent,
   ],
 })
 export class HomeModule {}
