@@ -22,10 +22,6 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   ],
 })
 export class SearchbarComponent {
-  // productList: Product[] = [];
-  // filteredProductList: Product[] = [];
-  // productList$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
-  // filteredProductList$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([])
   productList$: Observable<Product[]>;
   filteredProductList$: Observable<Product[]>;
   sharedDataService: SharedDataService = inject(SharedDataService);
