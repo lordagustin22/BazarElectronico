@@ -4,10 +4,11 @@
     <a routerLink="edit">Ir a editar/eliminar producto (temporal)</a>
     <h2 class="mt-4">Productos</h2>
     <div class="wrapper">
+      <!-- prettier-ignore -->
       <div
         class="producto"
         *ngFor="
-          let product of filteredProductList | paginator : pageSize : pageNumber
+          let product of (filteredProductList | paginator : pageSize : pageNumber) 
         "
       >
         <h3>{{ product.name }}</h3>

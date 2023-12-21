@@ -1,10 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { BehaviorSubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Product } from 'src/app/interfaces/product';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 
@@ -21,13 +21,13 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
     FormsModule,
   ],
 })
-export class SearchbarComponent implements OnInit {
+export class SearchbarComponent {
   // productList: Product[] = [];
   // filteredProductList: Product[] = [];
-  productList$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
-  filteredProductList$: BehaviorSubject<Product[]> = new BehaviorSubject<
-    Product[]
-  >([]);
+  // productList$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
+  // filteredProductList$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([])
+  productList$: Observable<Product[]>;
+  filteredProductList$: Observable<Product[]>;
   sharedDataService: SharedDataService = inject(SharedDataService);
 
   constructor() {
@@ -36,31 +36,21 @@ export class SearchbarComponent implements OnInit {
     this.filteredProductList = this.productList;
     */
     // Inicializar sin observables vs con observables
-    this.productList$.next(this.sharedDataService.productsObservable);
-    this.filteredProductList$.next(this.productList$.value);
-  }
-
-  ngOnInit(): void {
-    /*
-    this.productList;
-    this.sharedDataService.updateAllProducts(this.productList);
-    */
-    // Settear productList sin observables vs suscribirse para escuchar los cambios
-    this.productList$.subscribe((products) => {
-      this.sharedDataService.updateAllProducts = products;
-    });
+    this.productList$ = this.sharedDataService.productsObservable;
+    this.filteredProductList$ = this.productList$;
   }
 
   filterResults(text: string) {
-    const productList = this.productList$.value;
-    if (!text) {
-      this.filteredProductList$.next(productList);
-    }
-    const filteredProductList = productList.filter((product) =>
-      product?.name.toLowerCase().includes(text.toLowerCase())
-    );
-    this.filteredProductList$.next(filteredProductList);
-    this.sharedDataService.filteredProductsObservableData =
-      this.filteredProductList$.value;
+    this.productList$.subscribe((products) => {
+      if (!text) {
+        this.filteredProductList$ = this.productList$;
+      }
+      const filteredProductList = products.filter((product) =>
+        product?.name.toLowerCase().includes(text.toLowerCase())
+      );
+      this.filteredProductList$ = of(filteredProductList);
+      this.sharedDataService.filteredProductsObservableData =
+        filteredProductList;
+    });
   }
 }

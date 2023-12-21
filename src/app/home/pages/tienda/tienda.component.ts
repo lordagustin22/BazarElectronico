@@ -21,7 +21,7 @@ export class TiendaComponent implements OnInit {
   filteredProductList: Product[] = [];
 
   constructor() {
-    this.sharedDataService.filteredProducts$.subscribe((filteredProducts) => {
+    this.sharedDataService.filteredProductsSubject$.subscribe((filteredProducts) => {
       this.filteredProductList = filteredProducts;
     });
   }

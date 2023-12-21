@@ -10,9 +10,11 @@ export class PaginatorPipe implements PipeTransform {
     pageNumber: number
   ): any[] {
     if (!array.length) return [];
+
     if (pageSize === 'all') {
       return array;
     }
+
     pageSize = pageSize || 10;
     pageNumber = pageNumber || 1;
     --pageNumber;
