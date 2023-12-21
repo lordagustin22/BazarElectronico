@@ -1,5 +1,6 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { Observable, Subject, of, takeUntil } from 'rxjs';
 import { Product } from 'src/app/interfaces/product';
 import { PaginatorService } from 'src/app/services/paginator.service';
 import { ProductoService } from 'src/app/services/producto.service';
@@ -11,23 +12,33 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   styleUrls: ['./tienda.component.scss'],
   providers: [{ provide: MatPaginatorIntl, useClass: PaginatorService }],
 })
-export class TiendaComponent implements OnInit {
+export class TiendaComponent implements OnInit, OnDestroy {
+  // Services
+  productoService: ProductoService = inject(ProductoService);
+  sharedDataService: SharedDataService = inject(SharedDataService);
+
   currentPage: number = 0;
   pageSize: number = 10;
   pageNumber: number = 1;
-  productoService: ProductoService = inject(ProductoService);
-  sharedDataService: SharedDataService = inject(SharedDataService);
+
   productList: Product[] = [];
-  filteredProductList: Product[] = [];
+  filteredProductList$: Observable<Product[]>;
+  private unsubscribe$ = new Subject<void>();
 
   constructor() {
-    this.sharedDataService.filteredProductsSubject$.subscribe((filteredProducts) => {
-      this.filteredProductList = filteredProducts;
-    });
+    this.filteredProductList$ =
+      this.sharedDataService.filteredProductsSubject$.pipe(
+        takeUntil(this.unsubscribe$)
+      );
   }
 
   ngOnInit(): void {
     this.getProducts();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   getProducts() {
