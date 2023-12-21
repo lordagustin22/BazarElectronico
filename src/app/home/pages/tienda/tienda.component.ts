@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
-import { Observable, Subject, of, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { Product } from 'src/app/interfaces/product';
 import { PaginatorService } from 'src/app/services/paginator.service';
 import { ProductoService } from 'src/app/services/producto.service';
@@ -22,25 +22,29 @@ export class TiendaComponent implements OnInit, OnDestroy {
   pageNumber: number = 1;
   productList: Product[] = [];
   filteredProductList$: Observable<Product[]>;
-  private unsubscribe$ = new Subject<void>();
+  private onDestroy$: Subject<boolean> = new Subject();
 
   constructor() {
-    this.filteredProductList$ =
-      this.sharedDataService.filteredProductsSubject$.pipe(
-        takeUntil(this.unsubscribe$)
-      );
+    this.filteredProductList$ = this.sharedDataService.filteredProductsSubject$;
+    /*
     this.filteredProductList$.subscribe(
       (products) => (this.filteredProductListLength = products.length)
     );
+    */
+    this.filteredProductList$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(
+        (products) => (this.filteredProductListLength = products.length)
+      );
+  }
+
+  // Evitar memory leaks
+  ngOnDestroy(): void {
+    this.onDestroy$.next(true);
   }
 
   ngOnInit(): void {
     this.getProducts();
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
   }
 
   getProducts() {
