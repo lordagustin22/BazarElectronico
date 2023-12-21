@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { Product } from 'src/app/interfaces/product';
-import { DataService } from 'src/app/services/data.service';
 import { PaginatorService } from 'src/app/services/paginator.service';
 import { ProductoService } from 'src/app/services/producto.service';
 import { SharedDataService } from 'src/app/services/shared-data.service';
