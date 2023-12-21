@@ -17,10 +17,9 @@ export class TiendaComponent implements OnInit, OnDestroy {
   productoService: ProductoService = inject(ProductoService);
   sharedDataService: SharedDataService = inject(SharedDataService);
 
-  currentPage: number = 0;
+  filteredProductListLength = 0;
   pageSize: number = 10;
   pageNumber: number = 1;
-
   productList: Product[] = [];
   filteredProductList$: Observable<Product[]>;
   private unsubscribe$ = new Subject<void>();
@@ -30,6 +29,9 @@ export class TiendaComponent implements OnInit, OnDestroy {
       this.sharedDataService.filteredProductsSubject$.pipe(
         takeUntil(this.unsubscribe$)
       );
+    this.filteredProductList$.subscribe(
+      (products) => (this.filteredProductListLength = products.length)
+    );
   }
 
   ngOnInit(): void {

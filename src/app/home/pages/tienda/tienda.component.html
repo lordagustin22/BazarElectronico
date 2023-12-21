@@ -25,11 +25,11 @@
     </div>
     <mat-paginator
       class="surface-50 flex"
-      [length]="filteredProductList$.pipe.length"
+      [length]="filteredProductListLength"
       [pageSize]="pageSize"
       [pageSizeOptions]="[5, 10, 25, 100]"
       [showFirstLastButtons]="true"
-      [pageIndex]="currentPage"
+      [pageIndex]="pageNumber - 1"
       (page)="handlePageEvent($event)"
       aria-label="Select page"
     >
