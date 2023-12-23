@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Product } from 'src/app/interfaces/product';
 import { PaginatorService } from 'src/app/services/paginator.service';
 import { ProductoService } from 'src/app/services/producto.service';
@@ -12,12 +12,11 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   styleUrls: ['./tienda.component.scss'],
   providers: [{ provide: MatPaginatorIntl, useClass: PaginatorService }],
 })
-export class TiendaComponent implements OnInit, OnDestroy {
+export class TiendaComponent implements OnInit {
   // Services
   productoService: ProductoService = inject(ProductoService);
   sharedDataService: SharedDataService = inject(SharedDataService);
 
-  filteredProductListLength = 0;
   pageSize: number = 10;
   pageNumber: number = 1;
   productList: Product[] = [];
@@ -26,21 +25,6 @@ export class TiendaComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.filteredProductList$ = this.sharedDataService.filteredProductsSubject$;
-    /*
-    this.filteredProductList$.subscribe(
-      (products) => (this.filteredProductListLength = products.length)
-    );
-    */
-    this.filteredProductList$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(
-        (products) => (this.filteredProductListLength = products.length)
-      );
-  }
-
-  // Evitar memory leaks
-  ngOnDestroy(): void {
-    this.onDestroy$.next(true);
   }
 
   ngOnInit(): void {

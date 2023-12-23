@@ -12,7 +12,7 @@
         "
       >
         <h3>{{ product.name }}</h3>
-        <img [src]="product.image" alt="imagen de {{ product.name }}" />
+        <img [src]="product.images" alt="imagen de {{ product.name }}" />
         <p class="precio">Precio: {{ product.price | currency }}</p>
         <button routerLink="detalles/{{ product.id }}" class="ripple">
           Ver más
@@ -25,7 +25,7 @@
     </div>
     <mat-paginator
       class="surface-50 flex"
-      [length]="filteredProductListLength"
+      [length]="(filteredProductList$ | async)?.length"
       [pageSize]="pageSize"
       [pageSizeOptions]="[5, 10, 25, 100]"
       [showFirstLastButtons]="true"
