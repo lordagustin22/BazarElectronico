@@ -51,7 +51,7 @@ export class PaginaCrudComponent implements OnInit {
         name: data.name,
         description: data.description,
         price: data.price,
-        image: data.image || null,
+        images: data.images || null,
       });
     });
   }
@@ -61,7 +61,7 @@ export class PaginaCrudComponent implements OnInit {
       name: this.form.value.name,
       description: this.form.value.description,
       price: this.form.value.price,
-      image: this.form.value.image,
+      images: this.form.value.images,
     };
 
     if (this.id !== 0) {
