@@ -7,22 +7,18 @@ import { Product } from '../interfaces/product';
 })
 export class PaginatorPipe implements PipeTransform {
   transform(
-    array$: Observable<Product[]>,
+    array: Product[],
     pageSize: number | string = 10,
     pageNumber: number = 1
-  ): Observable<Product[]> {
-    return array$.pipe(
-      map((array) => {
-        if (!array.length) throw new Error('No hay productos');
+  ): Product[] {
+    if (!array.length) throw new Error('No hay productos');
 
-        if (pageSize === 'all') return array;
+    if (pageSize === 'all') return array;
 
-        pageSize = pageSize || 10;
-        pageNumber = pageNumber || 1;
-        --pageNumber;
-        // @ts-ignore
-        return array.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize);
-      })
-    );
+    pageSize = pageSize || 10;
+    pageNumber = pageNumber || 1;
+    --pageNumber;
+    // @ts-ignore
+    return array.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize);
   }
 }
