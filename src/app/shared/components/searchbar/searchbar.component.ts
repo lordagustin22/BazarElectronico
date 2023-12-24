@@ -4,9 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Observable, of } from 'rxjs';
-import { Product } from 'src/app/interfaces/product';
-import { SharedDataService } from 'src/app/services/shared-data.service';
+import { ProductoService } from 'src/app/services/producto.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -22,31 +20,17 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   ],
 })
 export class SearchbarComponent {
-  productList$: Observable<Product[]>;
-  filteredProductList$: Observable<Product[]>;
-  sharedDataService: SharedDataService = inject(SharedDataService);
+  // Inyección de productoService
+  productoService: ProductoService = inject(ProductoService);
 
-  constructor() {
-    /*
-    this.productList = this.dataService.getProducts();
-    this.filteredProductList = this.productList;
-    */
-    // Inicializar sin observables vs con observables
-    this.productList$ = this.sharedDataService.productsObservable;
-    this.filteredProductList$ = this.productList$;
-  }
-
+  // Esta función se encarga de filtrar el texto buscado, pero la lógica está
+  // en productoService
+  // si no hay texto, no hay ningún filtro (se muestran todos los productos)
+  // caso contrario, se filtran acorde al parámetro
   filterResults(text: string) {
-    this.productList$.subscribe((products) => {
-      if (!text) {
-        this.filteredProductList$ = this.productList$;
-      }
-      const filteredProductList = products.filter((product) =>
-        product?.name.toLowerCase().includes(text.toLowerCase())
-      );
-      this.filteredProductList$ = of(filteredProductList);
-      this.sharedDataService.filteredProductsObservableData =
-        filteredProductList;
-    });
+    if (!text) {
+      this.productoService.resetFilter();
+    }
+    this.productoService.filterProducts(text);
   }
 }
