@@ -4,12 +4,9 @@
     <a routerLink="edit">Ir a editar/eliminar producto (temporal)</a>
     <h2 class="mt-4">Productos</h2>
     <div class="wrapper">
-      <!-- prettier-ignore -->
       <div
         class="producto"
-        *ngFor="
-          let product of (filteredProductList$ | paginator : pageSize : pageNumber) | async
-        "
+        *ngFor="let product of productList | paginator : pageSize : pageNumber"
       >
         <h3>{{ product.name }}</h3>
         <img [src]="product.images" alt="imagen de {{ product.name }}" />
@@ -25,7 +22,7 @@
     </div>
     <mat-paginator
       class="surface-50 flex"
-      [length]="(filteredProductList$ | async)?.length"
+      [length]="productList.length"
       [pageSize]="pageSize"
       [pageSizeOptions]="[5, 10, 25, 100]"
       [showFirstLastButtons]="true"

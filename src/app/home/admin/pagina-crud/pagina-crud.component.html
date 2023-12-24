@@ -2,7 +2,13 @@
   <div class="card">
     <div class="card-header">{{ operacion }} Producto</div>
     <div class="card-body">
-      <form [formGroup]="form" (ngSubmit)="addProduct()">
+      <form
+        [formGroup]="form"
+        action="/uploads"
+        method="POST"
+        enctype="multipart/form-data"
+        (ngSubmit)="addProduct()"
+      >
         <input
           formControlName="name"
           type="text"
@@ -48,16 +54,15 @@
         </span>
 
         <input
-          (change)="onFileSelected($event)"
-          formControlName="image"
+          formControlName="images"
           type="file"
           class="form-control mt-2"
           accept="image/*"
         />
         <span
           *ngIf="
-            form.get('image')?.hasError('required') &&
-            form.get('image')?.touched
+            form.get('images')?.hasError('required') &&
+            form.get('images')?.touched
           "
         >
           El campo imagen es <strong>requerido</strong>

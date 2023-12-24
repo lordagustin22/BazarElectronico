@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from 'src/app/interfaces/product';
-import { ImageUploadService } from 'src/app/services/image-upload.service';
 import { ProductoService } from 'src/app/services/producto.service';
 
 @Component({
@@ -15,24 +14,21 @@ export class PaginaCrudComponent implements OnInit {
   form: FormGroup;
   operacion: string = 'Agregar ';
   id: number;
-  selectedFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
     private productoService: ProductoService,
     private router: Router,
     private toastr: ToastrService,
-    private aRouter: ActivatedRoute,
-    private imageUploadService: ImageUploadService
+    private aRouter: ActivatedRoute
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       price: [null, Validators.required],
-      image: [null, Validators.required],
+      images: [null, Validators.required],
     });
     this.id = Number(aRouter.snapshot.paramMap.get('id'));
-    aRouter.snapshot.paramMap.get('id');
   }
 
   // Se hace cast a number y null pasa a ser 0
@@ -41,12 +37,14 @@ export class PaginaCrudComponent implements OnInit {
     // Operacion es editar
     if (this.id !== 0) {
       this.operacion = 'Editar ';
-      this.getProductById(this.id);
+      this.getProduct(this.id);
     }
   }
 
-  getProductById(id: number) {
-    this.productoService.getProductById(id).subscribe((data: Product) => {
+  getProduct(id: number) {
+    // Conseguimos un producto por su id y le seteamos los valores
+    // ya existentes que este tençia
+    this.productoService.getProduct(id).subscribe((data: Product) => {
       this.form.setValue({
         name: data.name,
         description: data.description,
@@ -64,6 +62,7 @@ export class PaginaCrudComponent implements OnInit {
       images: this.form.value.images,
     };
 
+    // Toastr nos muestra notificaciones
     if (this.id !== 0) {
       // Editar
       product.id = this.id;
@@ -71,7 +70,8 @@ export class PaginaCrudComponent implements OnInit {
         this.toastr.info(
           `El producto ${product.name} fue actualizado con exito`
         );
-        this.router.navigate(['/']);
+        // esto te hace ir a la pagina /edit despues del submit
+        this.router.navigate(['/edit']);
       });
     } else {
       // Agregar
@@ -80,38 +80,10 @@ export class PaginaCrudComponent implements OnInit {
           `El producto ${product.name} fue registrado con exito`,
           'Producto registrado'
         );
-        this.router.navigate(['/']);
+        this.router.navigate(['/']).then(() => {
+          this.router.navigate(['/add']);
+        });
       });
-    }
-  }
-
-  onFileSelected(event: any): void {
-    const inputElement = event.target as HTMLInputElement;
-    if (inputElement?.files?.length) {
-      this.selectedFile = inputElement.files[0];
-      this.form.patchValue({ image: this.selectedFile });
-      this.uploadImage();
-    }
-  }
-
-  private uploadImage(): void {
-    const imageControl = this.form.get('image');
-
-    if (imageControl && imageControl.value instanceof File) {
-      const imageFile = imageControl.value;
-      this.imageUploadService.uploadImage(this.id, imageFile).subscribe(
-        (response) => {
-          console.log('Imagen subida con exito', response);
-          // Handle success, e.g., update UI or navigate to another page
-        },
-        (error) => {
-          console.error('Error subiendo imagen', error);
-          // Handle error, e.g., show an error message to the user
-        }
-      );
-    } else {
-      console.error('Formato de imagen invalido');
-      // You might want to handle this case, e.g., show an error message to the user
     }
   }
 }

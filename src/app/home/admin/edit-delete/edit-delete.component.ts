@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 import { Product } from 'src/app/interfaces/product';
 import { ProductoService } from 'src/app/services/producto.service';
 
@@ -10,17 +11,29 @@ import { ProductoService } from 'src/app/services/producto.service';
 })
 export class EditDeleteComponent implements OnInit {
   productList: Product[] = [];
+  filteredProductList$: Observable<Product[]>;
   productoService: ProductoService = inject(ProductoService);
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService) {
+    // Se define la lista de productos filtrados
+    this.filteredProductList$ = this.productoService.filteredProducts$;
+  }
 
   ngOnInit(): void {
     this.getProducts();
+    this.getFilteredProducts();
   }
 
   getProducts() {
     this.productoService.getProducts().subscribe((data) => {
       this.productList = data;
+    });
+  }
+
+  // Lo mismo que lo de arriba pero con los productos filtrados
+  getFilteredProducts() {
+    this.filteredProductList$.subscribe((filteredData) => {
+      this.productList = filteredData || this.productList;
     });
   }
 
