@@ -1,1 +1,15 @@
-<p>detalles works!</p>
+<div class="product-container">
+  <img
+    class="product-image"
+    [src]="product?.images"
+    alt="Imagen de {{ product?.name }}"
+  />
+  <div class="product-details">
+    <div class="product-name">{{ product?.name }}</div>
+    <div class="product-description">
+      {{ product?.description }}
+    </div>
+    <div class="product-price">{{ product?.price | currency }}</div>
+  </div>
+  <a [routerLink]="['/']" class="back-link">Volver a lista de productos</a>
+</div>
