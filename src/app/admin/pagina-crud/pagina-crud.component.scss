@@ -4,7 +4,7 @@
 }
 
 .card {
-  background-color: #222;
+  background-color: #fff;
   border: 0;
   border-radius: 0.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -12,7 +12,7 @@
 
 .card-header {
   background-color: #343a40;
-  color: #ffffff;
+  color: #fff;
   border-top: 0;
   border-top-right-radius: 0.5rem;
   border-top-left-radius: 0.5rem;
@@ -26,6 +26,7 @@
 
 /* Estilos para los campos del formulario */
 .form-control {
+  background-color: rgba(169, 169, 169, 0.2);
   width: 100%;
   padding: 1.25rem;
   margin-bottom: 0.5rem;
@@ -37,7 +38,7 @@
 
 input[type="file"] {
   border: none;
-  color: #ffffff;
+  background-color: #fff;
 }
 
 /* Estilos para los mensajes de error */
@@ -45,11 +46,6 @@ span {
   color: #dc3545;
   font-size: 0.875rem;
   margin-top: 0.5rem;
-}
-
-/* Estilos para el texto centrado */
-.text-center {
-  text-align: center;
 }
 
 /* Estilos para los botones */
@@ -78,7 +74,7 @@ span {
 
 h2 {
   font-size: 2.5rem;
-  color: #ffffff; /* Texto blanco para destacar en fondo azul */
+  color: #fff; /* Texto blanco para destacar en fondo azul */
   text-align: center;
   margin-bottom: 20px;
   text-transform: uppercase;

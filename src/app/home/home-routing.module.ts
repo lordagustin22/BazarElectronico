@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EditDeleteComponent } from './admin/edit-delete/edit-delete.component';
-import { PaginaCrudComponent } from './admin/pagina-crud/pagina-crud.component';
+import { EditDeleteComponent } from '../admin/edit-delete/edit-delete.component';
+import { PaginaCrudComponent } from '../admin/pagina-crud/pagina-crud.component';
 import { DetallesComponent } from './pages/detalles/detalles.component';
 import { TiendaComponent } from './pages/tienda/tienda.component';
 
