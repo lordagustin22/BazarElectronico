@@ -41,6 +41,13 @@ export class PaginaCrudComponent implements OnInit {
     }
   }
 
+  uploadImage($event: Event) {
+    const input = $event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+    }
+  }
+
   getProduct(id: number) {
     // Conseguimos un producto por su id y le seteamos los valores
     // ya existentes que este tençia

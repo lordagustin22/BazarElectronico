@@ -58,6 +58,7 @@
           type="file"
           class="form-control mt-2"
           accept="image/*"
+          (change)="uploadImage($event)"
         />
         <span
           *ngIf="
