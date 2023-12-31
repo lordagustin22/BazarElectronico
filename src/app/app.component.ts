@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
 	selector: 'app-root',
@@ -8,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
 	title = 'ElectroBazar';
 
-	ngOnInit(): void {
-		throw new Error('Method not implemented.');
+	constructor(private primengConfig: PrimeNGConfig) {}
+
+	ngOnInit() {
+		this.primengConfig.ripple = true;
 	}
 }

@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "bazarelectronico-347d2"
+  },
+  "targets": {
+    "bazarelectronico-347d2": {
+      "hosting": {
+        "e-commerce": [
+          "bazarelectronico-347d2"
+        ]
+      }
+    }
+  }
+}
