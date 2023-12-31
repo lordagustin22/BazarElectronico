@@ -24,12 +24,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 */
 
-/*
 export const environment = {
-  production: false,
-  endpoint: 'http://localhost:3000/',
+	production: false,
+	endpoint: 'http://localhost:3000/',
 };
-*/
 
 /*
  * For easier debugging in development mode, you can import the following file
