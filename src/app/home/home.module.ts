@@ -14,21 +14,21 @@ import { DetallesComponent } from './pages/detalles/detalles.component';
 import { TiendaComponent } from './pages/tienda/tienda.component';
 
 @NgModule({
-  declarations: [
-    PaginatorPipe,
-    TiendaComponent,
-    PaginaCrudComponent,
-    EditDeleteComponent,
-    DetallesComponent,
-  ],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatPaginatorModule,
-    NavbarComponent,
-    SearchbarComponent,
-  ],
+	declarations: [
+		PaginatorPipe,
+		TiendaComponent,
+		PaginaCrudComponent,
+		EditDeleteComponent,
+		DetallesComponent,
+	],
+	imports: [
+		CommonModule,
+		HomeRoutingModule,
+		FormsModule,
+		ReactiveFormsModule,
+		MatPaginatorModule,
+		NavbarComponent,
+		SearchbarComponent,
+	],
 })
 export class HomeModule {}

@@ -6,15 +6,17 @@ import { DetallesComponent } from './pages/detalles/detalles.component';
 import { TiendaComponent } from './pages/tienda/tienda.component';
 
 const routes: Routes = [
-  { path: '', component: TiendaComponent },
-  { path: 'add', component: PaginaCrudComponent },
-  { path: 'edit/:id', component: PaginaCrudComponent },
-  { path: 'edit', component: EditDeleteComponent },
-  { path: 'detalles/:id', component: DetallesComponent },
+	{ path: '', redirectTo: 'home', pathMatch: 'full' },
+	{ path: 'home', component: TiendaComponent },
+	{ path: 'add', component: PaginaCrudComponent },
+	{ path: 'edit/:id', component: PaginaCrudComponent },
+	{ path: 'edit', component: EditDeleteComponent },
+	{ path: 'detalles/:id', component: DetallesComponent },
+	{ path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
 export class HomeRoutingModule {}
