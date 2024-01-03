@@ -38,8 +38,8 @@ export class EditDeleteComponent implements OnInit {
 		});
 	}
 
-	deleteProduct(product: Product) {
-		this.productoService.deleteProduct(product).then(() => {
+	deleteProduct(id: string) {
+		this.productoService.deleteProduct(id).then(() => {
 			this.toastr.warning(
 				'El producto fue eliminado con exito',
 				'Producto eliminado'

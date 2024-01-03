@@ -1,7 +1,7 @@
 <div class="surface-50">
 	<div class="mx-auto fit">
 		<br />
-		<a routerLink="edit">Ir a editar/eliminar producto (temporal)</a>
+		<a routerLink="/edit">Ir a editar/eliminar producto (temporal)</a>
 		<h2 class="mt-4">Productos</h2>
 		<div class="wrapper">
 			@for (product of productList | paginator:pageSize:pageNumber; track
@@ -10,7 +10,7 @@
 				<h3>{{ product.name }}</h3>
 				<img [src]="product.images" alt="imagen de {{ product.name }}" />
 				<p class="precio">Precio: {{ product.price | currency }}</p>
-				<button routerLink="detalles/{{ product.id }}" class="ripple">
+				<button routerLink="/detalles/{{ product.id }}" class="ripple">
 					Ver más
 				</button>
 				<div class="detalles">

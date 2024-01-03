@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from 'src/app/interfaces/product';
@@ -44,7 +44,7 @@ export class PaginaCrudComponent implements OnInit {
 		if (this.id === null) {
 			this.addProduct();
 		} else {
-			this.editProduct();
+			this.editProduct(this.id);
 		}
 	}
 
@@ -78,10 +78,11 @@ export class PaginaCrudComponent implements OnInit {
 			})
 			.catch((err) => {
 				console.log(err);
+				throw err;
 			});
 	}
 
-	editProduct() {
+	editProduct(id: string) {
 		const product: Product = {
 			name: this.createProduct.value.name,
 			description: this.createProduct.value.description,
@@ -91,24 +92,39 @@ export class PaginaCrudComponent implements OnInit {
 		};
 
 		// Editar
-		this.productoService.updateProduct(product).then(() => {
-			this.toastr.info(`El producto ${product.name} fue actualizado con exito`);
-			// esto te hace ir a la pagina /edit despues del submit
-			this.router.navigate(['/edit']);
-		});
+		this.productoService
+			.updateProduct(id, product)
+			.then(() => {
+				this.toastr.info(
+					`El producto ${product.name} fue actualizado con exito`
+				);
+				// esto te hace ir a la pagina /edit despues del submit
+				this.router.navigate(['/edit']);
+			})
+			.catch((err) => {
+				console.log(`Toma tu error sorete: ${err}`);
+				throw err;
+			});
 	}
 
 	esEditar() {
 		this.operacion = 'Editar ';
 		if (this.id !== null) {
-			this.productoService.getProduct(this.id).then((data) => {
-				this.createProduct.setValue({
-					nombre: data.payload.data()['nombre'],
-					apellido: data.payload.data()['apellido'],
-					documento: data.payload.data()['documento'],
-					salario: data.payload.data()['salario'],
+			this.productoService
+				.getProduct(this.id)
+				.then((data) => {
+					this.createProduct.setValue({
+						name: data.name,
+						description: data.description,
+						price: data.price,
+						images: data.images || null,
+						fechaActualizacion: data.fechaActualizacion,
+					});
+				})
+				.catch((err) => {
+					console.log(`Toma tu error sorete: ${err}`);
+					throw err;
 				});
-			});
 		}
 	}
 }

@@ -43,24 +43,27 @@ export class ProductoService {
 
 	getProduct(id: string): Promise<any> {
 		const documento = doc(this.firestore, 'productos', id);
-		return getDoc(documento);
+		return getDoc(documento)
+			.then((doc) => {
+				if (doc.exists()) {
+					return doc.data();
+				} else {
+					return null;
+				}
+			})
+			.catch((err) => {
+				console.log(`El producto no existe: ${err}`);
+				throw err;
+			});
 	}
 
-	updateProduct(product: Product): Promise<any> {
-		const documento = doc(
-			this.firestore,
-			'productos',
-			`productos/${product.id}`
-		);
-		return updateDoc(documento, { merge: true });
+	updateProduct(id: string, product: Partial<Product>): Promise<any> {
+		const documento = doc(this.firestore, 'productos', id);
+		return updateDoc(documento, product);
 	}
 
-	deleteProduct(product: Product): Promise<any> {
-		const documento = doc(
-			this.firestore,
-			'productos',
-			`productos/${product.id}`
-		);
+	deleteProduct(id: string): Promise<any> {
+		const documento = doc(this.firestore, 'productos', id);
 		return deleteDoc(documento);
 	}
 
