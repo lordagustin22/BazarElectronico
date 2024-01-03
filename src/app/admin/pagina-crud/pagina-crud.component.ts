@@ -118,7 +118,6 @@ export class PaginaCrudComponent implements OnInit {
 						description: data.description,
 						price: data.price,
 						images: data.images || null,
-						fechaActualizacion: data.fechaActualizacion,
 					});
 				})
 				.catch((err) => {
