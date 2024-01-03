@@ -4,27 +4,28 @@ import { Product } from 'src/app/interfaces/product';
 import { ProductoService } from 'src/app/services/producto.service';
 
 @Component({
-  selector: 'app-detalles',
-  templateUrl: './detalles.component.html',
-  styleUrls: ['./detalles.component.scss'],
+	selector: 'app-detalles',
+	templateUrl: './detalles.component.html',
+	styleUrls: ['./detalles.component.scss'],
 })
 export class DetallesComponent implements OnInit {
-  productoService: ProductoService = inject(ProductoService);
-  private id: number;
-  product: Product | null = null;
+	productoService: ProductoService = inject(ProductoService);
+	route: ActivatedRoute = inject(ActivatedRoute);
+	id: string | null;
+	product: Product | null = null;
 
-  constructor(private route: ActivatedRoute) {
-    this.id = Number(route.snapshot.paramMap.get('id'));
-  }
+	constructor() {
+		this.id = this.route.snapshot.paramMap.get('id');
+	}
 
-  ngOnInit(): void {
-    this.getProduct(this.id);
-  }
+	ngOnInit(): void {
+		this.getProduct(this.id!);
+	}
 
-  getProduct(id: number) {
-    this.productoService.getProduct(id).subscribe((p) => {
-      this.product = p;
-      console.log(this.product);
-    });
-  }
+	getProduct(id: string) {
+		this.productoService.getProduct(id).then((p) => {
+			this.product = p;
+			console.log(this.product);
+		});
+	}
 }

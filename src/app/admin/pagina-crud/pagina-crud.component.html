@@ -1,91 +1,76 @@
 <div class="container">
-  <div class="card">
-    <div class="card-header">{{ operacion }} Producto</div>
-    <div class="card-body">
-      <form
-        [formGroup]="form"
-        action="/uploads"
-        method="POST"
-        enctype="multipart/form-data"
-        (ngSubmit)="addProduct()"
-      >
-        <input
-          formControlName="name"
-          type="text"
-          class="form-control"
-          placeholder="Ingrese nombre"
-        />
-        <span
-          *ngIf="
-            form.get('name')?.hasError('required') && form.get('name')?.touched
-          "
-        >
-          El campo nombre es <strong>requerido</strong>
-        </span>
+	<div class="card">
+		<div class="card-header">{{ operacion }} Producto</div>
+		<div class="card-body">
+			<form
+				[formGroup]="createProduct"
+				action="/uploads"
+				method="POST"
+				enctype="multipart/form-data"
+				(ngSubmit)="addProduct()"
+			>
+				<input
+					formControlName="name"
+					type="text"
+					class="form-control"
+					placeholder="Ingrese nombre"
+				/>
+				@if (createProduct.get('name')?.hasError('required') &&
+				createProduct.get('name')?.touched) {
+				<span> El campo nombre es <strong>requerido</strong> </span>
+				}
 
-        <input
-          formControlName="description"
-          type="text"
-          class="form-control mt-2"
-          placeholder="Ingrese descripción"
-        />
-        <span
-          *ngIf="
-            form.get('description')?.hasError('required') &&
-            form.get('description')?.touched
-          "
-        >
-          El campo descripción es <strong>requerido</strong>
-        </span>
+				<input
+					formControlName="description"
+					type="text"
+					class="form-control mt-2"
+					placeholder="Ingrese descripción"
+				/>
+				@if (createProduct.get('description')?.hasError('required') &&
+				createProduct.get('description')?.touched) {
+				<span> El campo descripción es <strong>requerido</strong> </span>
+				}
 
-        <input
-          formControlName="price"
-          type="number"
-          class="form-control mt-2"
-          placeholder="Ingrese precio"
-        />
-        <span
-          *ngIf="
-            form.get('price')?.hasError('required') &&
-            form.get('price')?.touched
-          "
-        >
-          El campo precio es <strong>requerido</strong>
-        </span>
+				<input
+					formControlName="price"
+					type="number"
+					class="form-control mt-2"
+					placeholder="Ingrese precio"
+				/>
+				@if (createProduct.get('price')?.hasError('required') &&
+				createProduct.get('price')?.touched) {
+				<span> El campo precio es <strong>requerido</strong> </span>
+				}
 
-        <input
-          formControlName="images"
-          type="file"
-          class="form-control mt-2"
-          accept="image/*"
-          (change)="uploadImage($event)"
-        />
-        <span
-          *ngIf="
-            form.get('images')?.hasError('required') &&
-            form.get('images')?.touched
-          "
-        >
-          El campo imagen es <strong>requerido</strong>
-        </span>
+				<input
+					formControlName="images"
+					type="file"
+					class="form-control mt-2"
+					accept="image/*"
+					(change)="uploadImage($event)"
+				/>
+				@if (createProduct.get('images')?.hasError('required') &&
+				createProduct.get('images')?.touched) {
+				<span> El campo imagen es <strong>requerido</strong> </span>
+				}
 
-        <div class="flex flex-col mt-2 text-center justify-content-center">
-          <div>
-            <button routerLink="/edit" type="button" class="btn btn-secondary">
-              Volver
-            </button>
-          </div>
-          <div>
-            <button
-              [disabled]="form.invalid"
-              type="submit"
-              class="btn btn-primary"
-            >
-              Aceptar
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+				<div class="flex flex-col mt-2 text-center justify-content-center">
+					<div>
+						<button routerLink="/edit" type="button" class="btn btn-secondary">
+							Volver
+						</button>
+					</div>
+					<div>
+						<button
+							[disabled]="createProduct.invalid"
+							type="submit"
+							class="btn btn-primary"
+						>
+							Aceptar
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>

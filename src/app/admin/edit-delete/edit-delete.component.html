@@ -1,46 +1,49 @@
 <div class="container">
-  <div class="title">
-    <h4>Listado de Productos</h4>
-    <button type="button" class="btn btn-primary" routerLink="/add">
-      Agregar Producto
-    </button>
-  </div>
+	<div class="title">
+		<h4>Listado de Productos</h4>
+		<button type="button" class="btn btn-primary" routerLink="/add">
+			Agregar Producto
+		</button>
+	</div>
 
-  <table *ngIf="productList.length > 0" class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Descripcion</th>
-        <th scope="col">Precio</th>
-        <th scope="col">Imagen</th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of productList" class="table-active">
-        <td>{{ item.name }}</td>
-        <td>{{ item.description }}</td>
-        <td>{{ item.price | currency }}</td>
-        <td>{{ item.images }}</td>
-        <td>
-          <button
-            routerLink="/edit/{{ item.id }}"
-            type="button"
-            class="btn btn-info"
-          >
-            Editar
-          </button>
-          <button
-            (click)="deleteProduct(item.id!)"
-            type="button"
-            class="btn btn-secondary ms-2"
-          >
-            Borrar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 *ngIf="productList.length == 0">No hay productos para mostrar</h5>
-  <button type="button" class="btn btn-primary" routerLink="/">Volver</button>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th scope="col">Nombre</th>
+				<th scope="col">Descripcion</th>
+				<th scope="col">Precio</th>
+				<th scope="col">Imagen</th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@for (product of productList; track product) {
+			<tr class="table-active">
+				<td>{{ product.name }}</td>
+				<td>{{ product.description }}</td>
+				<td>{{ product.price | currency }}</td>
+				<td>{{ product.images }}</td>
+				<td>
+					<button
+						routerLink="/edit/{{ product.id }}"
+						type="button"
+						class="btn btn-info"
+					>
+						Editar
+					</button>
+					<button
+						(click)="deleteProduct(product)"
+						type="button"
+						class="btn btn-secondary ms-2"
+					>
+						Borrar
+					</button>
+				</td>
+			</tr>
+			} @empty {
+			<h5>No hay productos para mostrar</h5>
+			}
+		</tbody>
+	</table>
+	<button type="button" class="btn btn-primary" routerLink="/">Volver</button>
 </div>

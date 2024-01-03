@@ -1,64 +1,79 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import {
+	Firestore,
+	addDoc,
+	collection,
+	collectionData,
+	deleteDoc,
+	doc,
+	updateDoc,
+} from '@angular/fire/firestore';
+import { getDoc } from '@firebase/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { Product } from '../interfaces/product';
 
 @Injectable({
-  providedIn: 'root',
+	providedIn: 'root',
 })
 export class ProductoService {
-  private myAppUrl: string;
-  private myApiUrl: string;
-  private productList: Product[] = [];
-  // prettier-ignore
-  private filteredProductsSubject$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
-  filteredProducts$ = this.filteredProductsSubject$.asObservable();
+	firestore: Firestore = inject(Firestore);
 
-  constructor(private http: HttpClient) {
-    this.myAppUrl = environment.endpoint;
-    this.myApiUrl = 'productos/';
+	private productList: Product[] = [];
+	// prettier-ignore
+	private filteredProductsSubject$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
+	filteredProducts$ = this.filteredProductsSubject$.asObservable();
 
-    // Definicion de productList en el constructor para poder utilizarlo
-    this.getProducts().subscribe((products) => {
-      this.productList = products;
-    });
-  }
+	constructor() {
+		this.getProducts().subscribe((products) => {
+			this.productList = products;
+		});
+	}
 
-  // Filtrado de producto en base a si un substring está incluido o
-  // es igual al string
-  filterProducts(text: string) {
-    const filteredProductList = this.productList.filter((product) =>
-      product?.name.toLowerCase().includes(text.toLowerCase())
-    );
-    this.filteredProductsSubject$.next(filteredProductList);
-  }
+	addProduct(product: Product): Promise<any> {
+		const coleccion = collection(this.firestore, 'productos');
+		return addDoc(coleccion, product);
+	}
 
-  resetFilter() {
-    this.filteredProductsSubject$.next(this.productList);
-  }
+	getProducts(): Observable<Product[]> {
+		const coleccion = collection(this.firestore, 'productos');
+		return collectionData(coleccion, { idField: 'id' }) as Observable<
+			Product[]
+		>;
+	}
 
-  // Definicion del CRUD
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.myAppUrl}${this.myApiUrl}`);
-  }
+	getProduct(id: string): Promise<any> {
+		const documento = doc(this.firestore, 'productos', id);
+		return getDoc(documento);
+	}
 
-  getProduct(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.myAppUrl}${this.myApiUrl}${id}`);
-  }
+	updateProduct(product: Product): Promise<any> {
+		const documento = doc(
+			this.firestore,
+			'productos',
+			`productos/${product.id}`
+		);
+		return updateDoc(documento, { merge: true });
+	}
 
-  deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.myAppUrl}${this.myApiUrl}${id}`);
-  }
+	deleteProduct(product: Product): Promise<any> {
+		const documento = doc(
+			this.firestore,
+			'productos',
+			`productos/${product.id}`
+		);
+		return deleteDoc(documento);
+	}
 
-  saveProduct(product: Product): Observable<void> {
-    return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}`, product);
-  }
+	// Filtrado de producto en base a si un substring está incluido o
+	// es igual al string
+	filterProducts(text: string) {
+		const filteredProductList = this.productList.filter((product) =>
+			product?.name.toLowerCase().includes(text.toLowerCase())
+		);
+		this.filteredProductsSubject$.next(filteredProductList);
+	}
 
-  updateProduct(id: number, product: Product): Observable<void> {
-    return this.http.put<void>(
-      `${this.myAppUrl}${this.myApiUrl}${id}`,
-      product
-    );
-  }
+	resetFilter() {
+		this.filteredProductsSubject$.next(this.productList);
+	}
 }

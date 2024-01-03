@@ -1,35 +1,35 @@
 <div class="surface-50">
-  <div class="mx-auto fit">
-    <br />
-    <a routerLink="edit">Ir a editar/eliminar producto (temporal)</a>
-    <h2 class="mt-4">Productos</h2>
-    <div class="wrapper">
-      <div
-        class="producto"
-        *ngFor="let product of productList | paginator : pageSize : pageNumber"
-      >
-        <h3>{{ product.name }}</h3>
-        <img [src]="product.images" alt="imagen de {{ product.name }}" />
-        <p class="precio">Precio: {{ product.price | currency }}</p>
-        <button routerLink="detalles/{{ product.id }}" class="ripple">
-          Ver más
-        </button>
-        <div class="detalles">
-          <h4>Detalles del producto:</h4>
-          <p>{{ product.description }}</p>
-        </div>
-      </div>
-    </div>
-    <mat-paginator
-      class="surface-50 flex"
-      [length]="productList.length"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="[5, 10, 25, 100]"
-      [showFirstLastButtons]="true"
-      [pageIndex]="pageNumber - 1"
-      (page)="handlePageEvent($event)"
-      aria-label="Select page"
-    >
-    </mat-paginator>
-  </div>
+	<div class="mx-auto fit">
+		<br />
+		<a routerLink="edit">Ir a editar/eliminar producto (temporal)</a>
+		<h2 class="mt-4">Productos</h2>
+		<div class="wrapper">
+			@for (product of productList | paginator:pageSize:pageNumber; track
+			product) {
+			<div class="producto">
+				<h3>{{ product.name }}</h3>
+				<img [src]="product.images" alt="imagen de {{ product.name }}" />
+				<p class="precio">Precio: {{ product.price | currency }}</p>
+				<button routerLink="detalles/{{ product.id }}" class="ripple">
+					Ver más
+				</button>
+				<div class="detalles">
+					<h4>Detalles del producto:</h4>
+					<p>{{ product.description }}</p>
+				</div>
+			</div>
+			}
+		</div>
+		<mat-paginator
+			class="surface-50 flex"
+			[length]="productList.length"
+			[pageSize]="pageSize"
+			[pageSizeOptions]="[5, 10, 25, 100]"
+			[showFirstLastButtons]="true"
+			[pageIndex]="pageNumber - 1"
+			(page)="handlePageEvent($event)"
+			aria-label="Select page"
+		>
+		</mat-paginator>
+	</div>
 </div>
