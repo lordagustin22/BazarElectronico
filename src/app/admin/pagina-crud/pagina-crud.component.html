@@ -4,7 +4,6 @@
 		<div class="card-body">
 			<form
 				[formGroup]="createProduct"
-				action="/uploads"
 				method="POST"
 				enctype="multipart/form-data"
 				(ngSubmit)="addEditProduct()"
@@ -43,16 +42,12 @@
 				}
 
 				<input
-					formControlName="images"
+					formControlName="image"
 					type="file"
 					class="form-control mt-2"
 					accept="image/*"
 					(change)="uploadImage($event)"
 				/>
-				@if (createProduct.get('images')?.hasError('required') &&
-				createProduct.get('images')?.touched) {
-				<span> El campo imagen es <strong>requerido</strong> </span>
-				}
 
 				<div class="flex flex-col mt-2 text-center justify-content-center">
 					<div>

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
+import { Storage, getDownloadURL, listAll, ref } from '@angular/fire/storage';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Product } from 'src/app/interfaces/product';
@@ -16,14 +17,17 @@ export class TiendaComponent implements OnInit, OnDestroy {
 	// Servicios e inyecciones
 	productoService: ProductoService = inject(ProductoService);
 	firestore: Firestore = inject(Firestore);
+	storage: Storage = inject(Storage);
 
 	// Declara variables asociadas al paginador
 	pageSize: number = 10;
 	pageNumber: number = 1;
 
-	// Los productos
+	// Los productosimport { getStorage, ref, getDownloadURL } from "firebase/storage";
+
 	productList: Product[] = [];
 	filteredProductList$: Observable<Product[]>;
+	images: string[] = [];
 	private destroy$ = new Subject<void>();
 
 	constructor() {
@@ -32,6 +36,7 @@ export class TiendaComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit(): void {
+		this.getImages();
 		this.getProducts();
 		this.getFilteredProducts();
 	}
@@ -41,10 +46,25 @@ export class TiendaComponent implements OnInit, OnDestroy {
 		this.destroy$.complete();
 	}
 
+	// Conseguir las imagenes de la nube
+	async getImages() {
+		const imagesRef = ref(this.storage, 'images');
+		const res = await listAll(imagesRef);
+		this.images = [];
+		for (const item of res.items) {
+			const url = await getDownloadURL(item);
+			this.images.push(url);
+		}
+	}
+
+	// Conseguimos todos los productos 
 	getProducts() {
-		this.productoService.getProducts().subscribe((data) => {
-			this.productList = data;
-		});
+		this.productoService
+			.getProducts()
+			.pipe(takeUntil(this.destroy$))
+			.subscribe((data) => {
+				this.productList = data;
+			});
 	}
 
 	// Lo mismo que lo de arriba pero con los productos filtrados

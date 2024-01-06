@@ -8,7 +8,7 @@
 			product) {
 			<div class="producto">
 				<h3>{{ product.name }}</h3>
-				<img [src]="product.images" alt="imagen de {{ product.name }}" />
+				<img [src]="product.image" alt="imagen de {{ product.name }}" />
 				<p class="precio">Precio: {{ product.price | currency }}</p>
 				<button routerLink="/detalles/{{ product.id }}" class="ripple">
 					Ver más

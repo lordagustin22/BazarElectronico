@@ -12,8 +12,7 @@
 				<th scope="col">Nombre</th>
 				<th scope="col">Descripcion</th>
 				<th scope="col">Precio</th>
-				<th scope="col">Imagen</th>
-				<th scope="col"></th>
+				<th scope="col">Operación</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,7 +21,6 @@
 				<td>{{ product.name }}</td>
 				<td>{{ product.description }}</td>
 				<td>{{ product.price | currency }}</td>
-				<td>{{ product.images }}</td>
 				<td>
 					<button
 						routerLink="/edit/{{ product.id }}"
